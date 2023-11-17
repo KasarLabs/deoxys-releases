@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 ubuntu:latest
+FROM --platform=linux/amd64 ubuntu:latest
 
 RUN apt update && apt install -y \
     clang \
@@ -7,9 +7,13 @@ RUN apt update && apt install -y \
     protobuf-compiler \
     libssl-dev \
     pkg-config \
-    curl \
+    curl
+
+
+RUN apt update && apt install -y \
     g++-aarch64-linux-gnu \
-    libc6-dev-arm64-cross
+    libc6-dev-arm64-cross \
+    pkg-config-aarch64-linux-gnu
 
 COPY .. /app
 
@@ -22,5 +26,7 @@ ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 
 ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN rustup target add aarch64-unknown-linux-gnu
 
 RUN cargo build --release --target aarch64-unknown-linux-gnu

@@ -8,3 +8,12 @@ services:
     container_name: madara-linux-arm-container
     volumes:
       - ../target/aarch64-unknown-linux-gnu/release:/app
+
+  madara-linux:
+    build:
+      context: .
+      dockerfile: Dockerfile.x86_64-unknown-linux-gnu
+    image: madara-linux
+    container_name: madara-linux-container
+    volumes:
+      - ../target/x86_64-unknown-linux-gnu/release:/app
